@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Magic Colour Mixing Adventure</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ===============================
+HEADER
+================================ -->
+
+<div id="header">
+    <div id="starsDisplay">
+        ⭐ Stars: <span id="starCount">0</span>
+    </div>
+</div>
+
+<!-- ===============================
+WELCOME SCREEN
+================================ -->
+
+<section id="welcomeScreen" class="screen active">
+
+    <div class="welcome-container">
+
+        <h1>🎨 Magic Colour Mixing Adventure</h1>
+
+        <p class="welcome-text">
+            Learn Purple, Orange and Green through fun colour activities!
+        </p>
+
+        <button id="startBtn" class="main-btn">
+            ▶ Start Adventure
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ===============================
+LEVEL 1
+MEET THE COLOURS
+================================ -->
+
+<section id="level1" class="screen">
+
+    <h2>🟣 Level 1: Meet the Colours</h2>
+
+    <p class="instruction">
+        Tap each colour to hear its name.
+    </p>
+
+    <div class="colour-container">
+
+        <div class="colour-card" data-colour="purple">
+            <img src="assets/purple.png" alt="Purple">
+            <h3>Purple</h3>
+        </div>
+
+        <div class="colour-card" data-colour="orange">
+            <img src="assets/orange.png" alt="Orange">
+            <h3>Orange</h3>
+        </div>
+
+        <div class="colour-card" data-colour="green">
+            <img src="assets/green.png" alt="Green">
+            <h3>Green</h3>
+        </div>
+
+    </div>
+
+    <button id="toLevel2" class="next-btn">
+        Next Level →
+    </button>
+
+</section>
+
+<!-- ===============================
+LEVEL 2
+COLOUR MIXING
+================================ -->
+
+<section id="level2" class="screen">
+
+    <h2>🎨 Level 2: Mix the Colours</h2>
+
+    <p class="instruction">
+        Drag two colours into the magic bowl.
+    </p>
+
+    <div class="mixing-area">
+
+        <div class="paint-container">
+
+            <div class="paint red" draggable="true" data-colour="red">
+                Red
+            </div>
+
+            <div class="paint blue" draggable="true" data-colour="blue">
+                Blue
+            </div>
+
+            <div class="paint yellow" draggable="true" data-colour="yellow">
+                Yellow
+            </div>
+
+        </div>
+
+        <div id="mixingBowl">
+            🥣
+        </div>
+
+    </div>
+
+    <div id="mixResult"></div>
+
+    <button id="toLevel3" class="next-btn">
+        Next Level →
+    </button>
+
+</section>
+
+<!-- ===============================
+LEVEL 3
+COLOUR HUNT
+================================ -->
+
+<section id="level3" class="screen">
+
+    <h2>🔍 Level 3: Colour Hunt</h2>
+
+    <p id="huntQuestion" class="instruction">
+        Find the Purple object.
+    </p>
+
+    <div id="huntOptions" class="hunt-grid">
+
+        <div class="hunt-card correct">
+            <img src="assets/grapes.png">
+        </div>
+
+        <div class="hunt-card">
+            <img src="assets/banana.png">
+        </div>
+
+        <div class="hunt-card">
+            <img src="assets/apple.png">
+        </div>
+
+    </div>
+
+    <button id="toLevel4" class="next-btn">
+        Next Level →
+    </button>
+
+</section>
+
+<!-- ===============================
+LEVEL 4
+MATCHING GAME
+================================ -->
+
+<section id="level4" class="screen">
+
+    <h2>🎯 Level 4: Match the Colour</h2>
+
+    <p class="instruction">
+        Match the colour to the correct object.
+    </p>
+
+    <div class="matching-area">
+
+        <div class="left-column">
+
+            <div class="match-colour"
+                 draggable="true"
+                 data-match="grapes">
+                 🟣 Purple
+            </div>
+
+            <div class="match-colour"
+                 draggable="true"
+                 data-match="pumpkin">
+                 🟠 Orange
+            </div>
+
+            <div class="match-colour"
+                 draggable="true"
+                 data-match="frog">
+                 🟢 Green
+            </div>
+
+        </div>
+
+        <div class="right-column">
+
+            <div class="match-target"
+                 data-target="grapes">
+                 <img src="assets/grapes.png">
+            </div>
+
+            <div class="match-target"
+                 data-target="pumpkin">
+                 <img src="assets/pumpkin.png">
+            </div>
+
+            <div class="match-target"
+                 data-target="frog">
+                 <img src="assets/frog.png">
+            </div>
+
+        </div>
+
+    </div>
+
+    <button id="finishBtn" class="next-btn">
+        Finish Game
+    </button>
+
+</section>
+
+<!-- ===============================
+FINAL SCREEN
+================================ -->
+
+<section id="finalScreen" class="screen">
+
+    <div class="final-container">
+
+        <img src="assets/trophy.png"
+             class="trophy">
+
+        <h1>🏆 Colour Mixing Champion!</h1>
+
+        <p>
+            Fantastic! You completed all levels.
+        </p>
+
+        <div id="finalStars">
+            ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+        </div>
+
+        <button onclick="location.reload()"
+                class="main-btn">
+            🔄 Play Again
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ===============================
+CONFETTI
+================================ -->
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- ===============================
+SCRIPT
+================================ -->
+
+<script src="script.js"></script>
+
+</body>
+</html>
+/* ==========================
+GENERAL
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(
+        135deg,
+        #ffebee,
+        #e8f5e9,
+        #e3f2fd
+    );
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* ==========================
+HEADER
+========================== */
+
+#header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    background:white;
+    padding:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+#starsDisplay{
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* ==========================
+SCREENS
+========================== */
+
+.screen{
+    display:none;
+    min-height:100vh;
+    padding:100px 20px 40px;
+    text-align:center;
+}
+
+.screen.active{
+    display:block;
+}
+
+/* ==========================
+WELCOME SCREEN
+========================== */
+
+.welcome-container{
+    max-width:800px;
+    margin:auto;
+}
+
+.welcome-container h1{
+    font-size:3rem;
+    color:#6a1b9a;
+    margin-bottom:25px;
+}
+
+.welcome-text{
+    font-size:1.4rem;
+    margin-bottom:30px;
+}
+
+/* ==========================
+BUTTONS
+========================== */
+
+.main-btn,
+.next-btn{
+    border:none;
+    cursor:pointer;
+    border-radius:15px;
+    font-size:1.2rem;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.main-btn{
+    background:#ff9800;
+    color:white;
+    padding:18px 35px;
+}
+
+.next-btn{
+    margin-top:30px;
+    background:#4caf50;
+    color:white;
+    padding:15px 30px;
+}
+
+.main-btn:hover,
+.next-btn:hover{
+    transform:scale(1.05);
+}
+
+/* ==========================
+HEADINGS
+========================== */
+
+h2{
+    font-size:2.2rem;
+    margin-bottom:15px;
+    color:#333;
+}
+
+.instruction{
+    font-size:1.3rem;
+    margin-bottom:25px;
+}
+
+/* ==========================
+LEVEL 1
+========================== */
+
+.colour-container{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-top:30px;
+}
+
+.colour-card{
+    width:220px;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+.colour-card:hover{
+    transform:translateY(-8px);
+}
+
+.colour-card img{
+    width:160px;
+    height:160px;
+    object-fit:contain;
+}
+
+.colour-card h3{
+    margin-top:15px;
+    font-size:1.5rem;
+}
+
+/* ==========================
+LEVEL 2
+========================== */
+
+.mixing-area{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:60px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.paint-container{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.paint{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1.2rem;
+    font-weight:bold;
+    cursor:grab;
+}
+
+.red{
+    background:#f44336;
+}
+
+.blue{
+    background:#2196f3;
+}
+
+.yellow{
+    background:#ffc107;
+    color:black;
+}
+
+#mixingBowl{
+    width:220px;
+    height:220px;
+    background:white;
+    border:5px dashed #777;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:5rem;
+}
+
+#mixResult{
+    margin-top:30px;
+    font-size:2rem;
+    font-weight:bold;
+    color:#6a1b9a;
+}
+
+/* ==========================
+LEVEL 3
+========================== */
+
+.hunt-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    max-width:900px;
+    margin:auto;
+}
+
+.hunt-card{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 5px 12px rgba(0,0,0,0.15);
+}
+
+.hunt-card:hover{
+    transform:scale(1.05);
+}
+
+.hunt-card img{
+    width:180px;
+    height:180px;
+    object-fit:contain;
+}
+
+/* ==========================
+LEVEL 4
+========================== */
+
+.matching-area{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.left-column,
+.right-column{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.match-colour{
+    width:220px;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    cursor:grab;
+    font-size:1.3rem;
+    font-weight:bold;
+    box-shadow:0 5px 12px rgba(0,0,0,0.15);
+}
+
+.match-target{
+    width:220px;
+    height:180px;
+    background:white;
+    border:3px dashed #999;
+    border-radius:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.match-target img{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+}
+
+/* ==========================
+FINAL SCREEN
+========================== */
+
+.final-container{
+    max-width:700px;
+    margin:auto;
+}
+
+.trophy{
+    width:220px;
+    margin-bottom:20px;
+}
+
+.final-container h1{
+    color:#ff9800;
+    margin-bottom:20px;
+}
+
+#finalStars{
+    font-size:2rem;
+    margin:30px 0;
+}
+
+/* ==========================
+CONFETTI
+========================== */
+
+#confettiCanvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:9999;
+}
+
+/* ==========================
+MOBILE
+========================== */
+
+@media(max-width:768px){
+
+    .welcome-container h1{
+        font-size:2.2rem;
+    }
+
+    h2{
+        font-size:1.8rem;
+    }
+
+    .colour-card{
+        width:180px;
+    }
+
+    .colour-card img{
+        width:130px;
+        height:130px;
+    }
+
+    .paint{
+        width:90px;
+        height:90px;
+        font-size:1rem;
+    }
+
+    #mixingBowl{
+        width:180px;
+        height:180px;
+    }
+
+    .match-colour{
+        width:180px;
+    }
+
+    .match-target{
+        width:180px;
+    }
+}
+let stars = 0;
+
+let coloursTapped = 0;
+
+let currentMix = [];
+
+const screens = document.querySelectorAll(".screen");
+
+const startBtn = document.getElementById("startBtn");
+const starCount = document.getElementById("starCount");
+
+const level1 = document.getElementById("level1");
+const level2 = document.getElementById("level2");
+const level3 = document.getElementById("level3");
+
+const toLevel2 = document.getElementById("toLevel2");
+const toLevel3 = document.getElementById("toLevel3");
+
+const mixResult = document.getElementById("mixResult");
+const bowl = document.getElementById("mixingBowl");
+
+function showScreen(screenId){
+
+    screens.forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    document
+        .getElementById(screenId)
+        .classList.add("active");
+}
+
+function addStar(){
+
+    stars++;
+
+    starCount.textContent = stars;
+}
+
+function speak(text){
+
+    speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+
+    msg.rate = 0.9;
+    msg.pitch = 1.1;
+    msg.volume = 1;
+
+    speechSynthesis.speak(msg);
+}
+
+window.onload = () => {
+
+    setTimeout(()=>{
+
+        speak(
+          "Hello little artist. Today we will learn secondary colours. Let's mix colours and have fun."
+        );
+
+    },1000);
+
+};
+
+startBtn.addEventListener("click",()=>{
+
+    showScreen("level1");
+
+    speak(
+      "Tap each colour to hear its name."
+    );
+
+});
+
+const colourCards =
+document.querySelectorAll(".colour-card");
+
+const tappedColours = new Set();
+
+colourCards.forEach(card=>{
+
+    card.addEventListener("click",()=>{
+
+        const colour =
+        card.dataset.colour;
+
+        speak(colour);
+
+        if(!tappedColours.has(colour)){
+
+            tappedColours.add(colour);
+
+            addStar();
+
+            coloursTapped++;
+
+        }
+
+        if(coloursTapped === 3){
+
+            setTimeout(()=>{
+
+                speak(
+                  "Fantastic. Now you know the secondary colours."
+                );
+
+            },800);
+        }
+
+    });
+
+});
+
+toLevel2.addEventListener("click",()=>{
+
+    showScreen("level2");
+
+    speak(
+      "Drag two colours into the magic bowl."
+    );
+
+});
+
+const paints =
+document.querySelectorAll(".paint");
+
+paints.forEach(paint=>{
+
+    paint.addEventListener("dragstart",(e)=>{
+
+        e.dataTransfer.setData(
+            "colour",
+            paint.dataset.colour
+        );
+
+    });
+
+});
+
+bowl.addEventListener("dragover",(e)=>{
+
+    e.preventDefault();
+
+});
+
+bowl.addEventListener("drop",(e)=>{
+
+    e.preventDefault();
+
+    const colour =
+    e.dataTransfer.getData("colour");
+
+    currentMix.push(colour);
+
+    if(currentMix.length === 2){
+
+        checkMix();
+
+    }
+
+});
+
+function checkMix(){
+
+    const mix =
+    currentMix.sort().join("-");
+
+    if(mix === "blue-red"){
+
+        mixResult.innerHTML =
+        "🟣 Purple";
+
+        speak(
+          "Red and Blue make Purple."
+        );
+
+        addStar();
+    }
+
+    else if(mix === "red-yellow"){
+
+        mixResult.innerHTML =
+        "🟠 Orange";
+
+        speak(
+          "Red and Yellow make Orange."
+        );
+
+        addStar();
+    }
+
+    else if(mix === "blue-yellow"){
+
+        mixResult.innerHTML =
+        "🟢 Green";
+
+        speak(
+          "Blue and Yellow make Green."
+        );
+
+        addStar();
+    }
+
+    else{
+
+        mixResult.innerHTML =
+        "Try Again";
+
+        speak(
+          "Oops. Try again."
+        );
+    }
+
+    currentMix = [];
+
+}
+/* =====================================
+LEVEL 3 - COLOUR HUNT
+===================================== */
+
+const huntQuestion =
+document.getElementById("huntQuestion");
+
+const huntOptions =
+document.getElementById("huntOptions");
+
+const huntLevels = [
+
+{
+    colour:"Purple",
+    correct:"grapes",
+    options:[
+        "grapes",
+        "banana",
+        "apple"
+    ]
+},
+
+{
+    colour:"Orange",
+    correct:"pumpkin",
+    options:[
+        "pumpkin",
+        "leaf",
+        "ball"
+    ]
+},
+
+{
+    colour:"Green",
+    correct:"frog",
+    options:[
+        "frog",
+        "strawberry",
+        "flower"
+    ]
+}
+
+];
+
+let huntIndex = 0;
+
+toLevel3.addEventListener("click",()=>{
+
+    showScreen("level3");
+
+    loadHuntLevel();
+
+});
+
+function loadHuntLevel(){
+
+    const level =
+    huntLevels[huntIndex];
+
+    huntQuestion.innerHTML =
+    `Find the ${level.colour} object`;
+
+    huntOptions.innerHTML = "";
+
+    level.options.forEach(item=>{
+
+        const card =
+        document.createElement("div");
+
+        card.className =
+        "hunt-card";
+
+        card.innerHTML =
+        `<img src="assets/${item}.png">`;
+
+        card.addEventListener("click",()=>{
+
+            if(item === level.correct){
+
+                addStar();
+
+                speak(
+                  "Great job!"
+                );
+
+                card.style.border =
+                "6px solid green";
+
+                setTimeout(()=>{
+
+                    huntIndex++;
+
+                    if(
+                       huntIndex <
+                       huntLevels.length
+                    ){
+
+                        loadHuntLevel();
+
+                    }else{
+
+                        speak(
+                          "Fantastic! Let's do the matching game."
+                        );
+
+                    }
+
+                },1200);
+
+            }else{
+
+                speak(
+                  "Try again."
+                );
+
+                card.style.border =
+                "6px solid red";
+
+                setTimeout(()=>{
+
+                    card.style.border =
+                    "none";
+
+                },800);
+
+            }
+
+        });
+
+        huntOptions.appendChild(card);
+
+    });
+
+}
+
+/* =====================================
+LEVEL 4 NAVIGATION
+===================================== */
+
+const toLevel4 =
+document.getElementById("toLevel4");
+
+toLevel4.addEventListener("click",()=>{
+
+    showScreen("level4");
+
+    speak(
+      "Match the colours to the correct objects."
+    );
+
+});
+
+/* =====================================
+MATCHING GAME
+===================================== */
+
+const matchColours =
+document.querySelectorAll(
+".match-colour"
+);
+
+const matchTargets =
+document.querySelectorAll(
+".match-target"
+);
+
+let matchesCompleted = 0;
+
+matchColours.forEach(colour=>{
+
+    colour.addEventListener(
+    "dragstart",(e)=>{
+
+        e.dataTransfer.setData(
+        "match",
+        colour.dataset.match
+        );
+
+    });
+
+});
+
+matchTargets.forEach(target=>{
+
+    target.addEventListener(
+    "dragover",(e)=>{
+
+        e.preventDefault();
+
+    });
+
+    target.addEventListener(
+    "drop",(e)=>{
+
+        e.preventDefault();
+
+        const dragged =
+        e.dataTransfer.getData(
+        "match"
+        );
+
+        const targetValue =
+        target.dataset.target;
+
+        if(
+          dragged === targetValue
+        ){
+
+            target.style.border =
+            "5px solid green";
+
+            addStar();
+
+            matchesCompleted++;
+
+            speak(
+              "Correct!"
+            );
+
+            if(
+              matchesCompleted === 3
+            ){
+
+                setTimeout(()=>{
+
+                    speak(
+                      "You matched all the colours."
+                    );
+
+                },1000);
+
+            }
+
+        }else{
+
+            target.style.border =
+            "5px solid red";
+
+            speak(
+              "Try again."
+            );
+
+            setTimeout(()=>{
+
+                target.style.border =
+                "3px dashed #999";
+
+            },1000);
+
+        }
+
+    });
+
+});
+
+/* =====================================
+FINISH GAME
+===================================== */
+
+const finishBtn =
+document.getElementById(
+"finishBtn"
+);
+
+finishBtn.addEventListener(
+"click",()=>{
+
+    showScreen(
+    "finalScreen"
+    );
+
+    startConfetti();
+
+    speak(
+      "Fantastic! You are a colour mixing champion!"
+    );
+
+});
+
+/* =====================================
+CONFETTI
+===================================== */
+
+const canvas =
+document.getElementById(
+"confettiCanvas"
+);
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+window.innerWidth;
+
+canvas.height =
+window.innerHeight;
+
+let confettiPieces = [];
+
+function createConfetti(){
+
+    confettiPieces = [];
+
+    for(
+      let i=0;
+      i<150;
+      i++
+    ){
+
+        confettiPieces.push({
+
+            x:
+            Math.random() *
+            canvas.width,
+
+            y:
+            Math.random() *
+            canvas.height,
+
+            size:
+            Math.random()*10+5,
+
+            speed:
+            Math.random()*4+2,
+
+            color:
+            `hsl(
+            ${Math.random()*360},
+            100%,
+            50%
+            )`
+
+        });
+
+    }
+
+}
+
+function drawConfetti(){
+
+    ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+    );
+
+    confettiPieces.forEach(p=>{
+
+        ctx.fillStyle =
+        p.color;
+
+        ctx.fillRect(
+        p.x,
+        p.y,
+        p.size,
+        p.size
+        );
+
+        p.y += p.speed;
+
+        if(
+          p.y >
+          canvas.height
+        ){
+
+            p.y = -20;
+
+        }
+
+    });
+
+    requestAnimationFrame(
+    drawConfetti
+    );
+
+}
+
+function startConfetti(){
+
+    createConfetti();
+
+    drawConfetti();
+
+}
+
+/* =====================================
+RESPONSIVE CANVAS
+===================================== */
+
+window.addEventListener(
+"resize",()=>{
+
+    canvas.width =
+    window.innerWidth;
+
+    canvas.height =
+    window.innerHeight;
+
+});
+
+</script>
+
+</body>
+</html>
