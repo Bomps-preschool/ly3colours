@@ -3,145 +3,598 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Secondary Colours Adventure</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<link rel="stylesheet" href="style.css">
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff8f0;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
+  .screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── SPLASH ── */
+  #splashScreen {
+    background: linear-gradient(135deg, #6a0dad, #ff8c00, #228b22);
+  }
+
+  .splashLogo {
+    width: 200px;
+    animation: pulse 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.08); }
+  }
+
+  /* ── WELCOME ── */
+  #welcomeScreen {
+    background: linear-gradient(160deg, #ffecd2, #fcb69f);
+  }
+
+  #welcomeScreen h1 {
+    font-size: 2rem;
+    color: #5a0080;
+    margin-bottom: 12px;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  #welcomeScreen p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 28px;
+  }
+
+  /* ── LEARN ── */
+  #learnScreen {
+    background: linear-gradient(160deg, #e0f7fa, #b2ebf2);
+  }
+
+  #learnScreen h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 24px;
+  }
+
+  .colourGrid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .colourCard {
+    width: 130px;
+    height: 130px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    transition: transform 0.15s;
+    user-select: none;
+  }
+
+  .colourCard:active { transform: scale(0.93); }
+  .colourCard.purple { background: #7b2fbe; }
+  .colourCard.orange { background: #e87722; }
+  .colourCard.green  { background: #2e7d32; }
+
+  /* ── SORTING ── */
+  #sortingScreen {
+    background: linear-gradient(160deg, #fff9c4, #fff176);
+  }
+
+  #sortingScreen h2 {
+    font-size: 1.6rem;
+    color: #4a148c;
+    margin-bottom: 8px;
+  }
+
+  #levelInstruction {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 16px;
+  }
+
+  .itemsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 20px;
+    min-height: 100px;
+  }
+
+  .item {
+    width: 90px;
+    height: 90px;
+    border-radius: 14px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #333;
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+    padding: 6px;
+  }
+
+  .item img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .item:active { cursor: grabbing; transform: scale(1.05); }
+  .item.dragging { opacity: 0.4; transform: scale(1.1); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+  .basket {
+    width: 200px;
+    min-height: 100px;
+    border: 4px dashed #aaa;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #666;
+    background: rgba(255,255,255,0.6);
+    transition: border-color 0.2s, background 0.2s;
+    padding: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .basket.dragover {
+    border-color: #4caf50;
+    background: rgba(200,255,200,0.7);
+  }
+
+  .basket.correct-flash {
+    border-color: #4caf50;
+    background: rgba(144,238,144,0.8);
+  }
+
+  .basket.wrong-flash {
+    border-color: #f44336;
+    background: rgba(255,182,182,0.8);
+  }
+
+  /* score bar */
+  .score-bar {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    pointer-events: none;
+  }
+
+  /* ── FINAL ── */
+  #finalScreen {
+    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+  }
+
+  #finalScreen .logo {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+
+  #finalScreen h1 {
+    font-size: 2.2rem;
+    color: #4a148c;
+    margin-bottom: 10px;
+  }
+
+  #finalScreen p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 16px;
+  }
+
+  .stars {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+    letter-spacing: 4px;
+  }
+
+  /* ── SHARED BUTTON ── */
+  button {
+    padding: 14px 36px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    background: #6a0dad;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(106,13,173,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  button:hover  { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(106,13,173,0.5); }
+  button:active { transform: scale(0.96); }
+
+  /* Touch drag helper */
+  #dragClone {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.85;
+    transform: scale(1.1);
+    display: none;
+  }
+</style>
 </head>
-
 <body>
 
 <!-- SPLASH SCREEN -->
-
 <section id="splashScreen" class="screen active">
-
-    <img
-    src="Assets/inovinelogo.png"
-    class="splashLogo"
-    alt="Inovine Logo">
-
+  <img src="Assets/innovinelogo.png" class="splashLogo" alt="Innovine Logo">
 </section>
 
 <!-- WELCOME SCREEN -->
-
 <section id="welcomeScreen" class="screen">
-
-    <div class="welcomeContent">
-
-        <h1>
-        Secondary Colours Adventure
-        </h1>
-
-        <p>
-        Learn Purple, Orange and Green.
-        </p>
-
-        <button id="startBtn">
-        Start Game
-        </button>
-
-    </div>
-
+  <div class="welcomeContent">
+    <h1>Secondary Colours Adventure</h1>
+    <p>Learn Purple, Orange and Green!</p>
+    <button id="startBtn">Start Game</button>
+  </div>
 </section>
 
 <!-- LEARN COLOURS -->
-
 <section id="learnScreen" class="screen">
-
-    <h2>
-    Tap the Colours
-    </h2>
-
-    <div class="colourGrid">
-
-        <div class="colourCard purple">
-            Purple
-        </div>
-
-        <div class="colourCard orange">
-            Orange
-        </div>
-
-        <div class="colourCard green">
-            Green
-        </div>
-
-    </div>
-
-    <button id="learnNextBtn">
-    Next
-    </button>
-
+  <h2>Tap the Colours!</h2>
+  <div class="colourGrid">
+    <div class="colourCard purple" data-colour="purple">🟣 Purple</div>
+    <div class="colourCard orange" data-colour="orange">🟠 Orange</div>
+    <div class="colourCard green"  data-colour="green">🟢 Green</div>
+  </div>
+  <button id="learnNextBtn">Next →</button>
 </section>
 
 <!-- SORTING SCREEN -->
-
 <section id="sortingScreen" class="screen">
-
-    <h2 id="levelTitle">
-    Purple Basket
-    </h2>
-
-    <p id="levelInstruction">
-    Drag the correct objects into the basket.
-    </p>
-
-    <div
-    id="itemsContainer"
-    class="itemsContainer">
-
-    </div>
-
-    <div
-    id="basket"
-    class="basket">
-
-    Basket
-
-    </div>
-
+  <div class="score-bar" id="scoreBar">Score: 0</div>
+  <h2 id="levelTitle">Purple Basket</h2>
+  <p id="levelInstruction">Drag the correct items into the basket!</p>
+  <div id="itemsContainer" class="itemsContainer"></div>
+  <div id="basket" class="basket">🧺 Drop here</div>
 </section>
 
-<!-- CELEBRATION -->
-
+<!-- FINAL SCREEN -->
 <section id="finalScreen" class="screen">
-
-    <img
-    src="Assets/inovinelogo.png"
-    class="logo">
-
-    <h1>
-    🏆 Colour Champion
-    </h1>
-
-    <p>
-    Fantastic!
-    </p>
-
-    <div class="stars">
-    ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
-    </div>
-
-    <button onclick="location.reload()">
-    Play Again
-    </button>
-
+  <img src="Assets/innovinelogo.png" class="logo" alt="Logo">
+  <h1>🏆 Colour Champion!</h1>
+  <p>Fantastic! You sorted all the colours!</p>
+  <div class="stars">⭐⭐⭐⭐⭐</div>
+  <button onclick="location.reload()">Play Again 🔄</button>
 </section>
 
 <!-- AUDIO -->
+<audio id="correctSound" src="Assets/correct.mp3"></audio>
+<audio id="wrongSound"   src="Assets/wrong.mp3"></audio>
 
-<audio
-id="correctSound"
-src="Assets/correct.mp3">
-</audio>
+<!-- Touch drag clone -->
+<div id="dragClone"></div>
 
-<audio
-id="wrongSound"
-src="Assets/wrong.mp3">
-</audio>
+<script>
+// ─── Utility ───────────────────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-<script src="script.js"></script>
+function playSound(id) {
+  const a = document.getElementById(id);
+  if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+}
 
+// ─── Levels ────────────────────────────────────────────────────────────────
+// Each level: which basket colour, which items belong (correct), which are distractors
+const levels = [
+  {
+    colour: 'purple',
+    title:  '🟣 Purple Basket',
+    instruction: 'Drag the PURPLE things into the basket!',
+    basketStyle: '#7b2fbe',
+    items: [
+      { name: 'Grapes',  img: 'Assets/grapes.png',  correct: true  },
+      { name: 'Parrot',  img: 'Assets/parrot.png',  correct: false },
+      { name: 'Brinjal', img: 'Assets/brinjal.png', correct: true  },
+      { name: 'Orange',  img: 'Assets/orange.jpg',  correct: false },
+    ]
+  },
+  {
+    colour: 'orange',
+    title:  '🟠 Orange Basket',
+    instruction: 'Drag the ORANGE things into the basket!',
+    basketStyle: '#e87722',
+    items: [
+      { name: 'Orange',       img: 'Assets/orange.jpg',       correct: true  },
+      { name: 'Orange Fruit', img: 'Assets/orangefruit.png',  correct: true  },
+      { name: 'Balloon',      img: 'Assets/ballonorange.png', correct: true  },
+      { name: 'Grapes',       img: 'Assets/grapes.png',       correct: false },
+    ]
+  },
+  {
+    colour: 'green',
+    title:  '🟢 Green Basket',
+    instruction: 'Drag the GREEN things into the basket!',
+    basketStyle: '#2e7d32',
+    items: [
+      { name: 'Tree',   img: 'Assets/tree.jpg',   correct: true  },
+      { name: 'Parrot', img: 'Assets/parrot.png', correct: true  },
+      { name: 'Bow',    img: 'Assets/bow.png',    correct: false },
+      { name: 'T-Shirt',img: 'Assets/tshirt.png', correct: false },
+    ]
+  }
+];
+
+// ─── State ─────────────────────────────────────────────────────────────────
+let currentLevel = 0;
+let score = 0;
+let remaining = 0;   // correct items left in current level
+
+// ─── Splash → Welcome ──────────────────────────────────────────────────────
+setTimeout(() => show('welcomeScreen'), 2000);
+
+// ─── Welcome → Learn ───────────────────────────────────────────────────────
+document.getElementById('startBtn').addEventListener('click', () => show('learnScreen'));
+
+// ─── Learn: tap cards to hear name ─────────────────────────────────────────
+document.querySelectorAll('.colourCard').forEach(card => {
+  card.addEventListener('click', () => {
+    const colour = card.dataset.colour;
+    // simple speech if available
+    if ('speechSynthesis' in window) {
+      const u = new SpeechSynthesisUtterance(colour);
+      u.rate = 0.85;
+      speechSynthesis.speak(u);
+    }
+    card.style.transform = 'scale(1.15)';
+    setTimeout(() => card.style.transform = '', 300);
+  });
+});
+
+// ─── Learn → Sorting ───────────────────────────────────────────────────────
+document.getElementById('learnNextBtn').addEventListener('click', () => {
+  currentLevel = 0;
+  score = 0;
+  loadLevel(currentLevel);
+  show('sortingScreen');
+});
+
+// ─── Load a level ──────────────────────────────────────────────────────────
+function loadLevel(idx) {
+  const lvl = levels[idx];
+  document.getElementById('levelTitle').textContent      = lvl.title;
+  document.getElementById('levelInstruction').textContent = lvl.instruction;
+  document.getElementById('scoreBar').textContent         = 'Score: ' + score;
+
+  const basket = document.getElementById('basket');
+  basket.style.borderColor = lvl.basketStyle;
+  basket.innerHTML = '🧺 Drop here';
+
+  remaining = lvl.items.filter(i => i.correct).length;
+
+  const container = document.getElementById('itemsContainer');
+  container.innerHTML = '';
+
+  // shuffle items
+  const shuffled = [...lvl.items].sort(() => Math.random() - 0.5);
+
+  shuffled.forEach(item => {
+    const el = document.createElement('div');
+    el.className   = 'item';
+    el.draggable   = true;
+    el.dataset.correct = item.correct;
+    el.dataset.name    = item.name;
+
+    const img = document.createElement('img');
+    img.src = item.img;
+    img.alt = item.name;
+    img.onerror = () => { img.style.display = 'none'; }; // graceful fallback
+
+    const label = document.createElement('span');
+    label.textContent = item.name;
+
+    el.appendChild(img);
+    el.appendChild(label);
+    container.appendChild(el);
+
+    // Desktop drag events
+    el.addEventListener('dragstart', onDragStart);
+    el.addEventListener('dragend',   onDragEnd);
+
+    // Touch drag events
+    el.addEventListener('touchstart', onTouchStart, { passive: false });
+    el.addEventListener('touchmove',  onTouchMove,  { passive: false });
+    el.addEventListener('touchend',   onTouchEnd,   { passive: false });
+  });
+}
+
+// ─── Desktop Drag & Drop ───────────────────────────────────────────────────
+let draggedEl = null;
+
+function onDragStart(e) {
+  draggedEl = e.currentTarget;
+  draggedEl.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragEnd(e) {
+  if (draggedEl) draggedEl.classList.remove('dragging');
+  draggedEl = null;
+  document.getElementById('basket').classList.remove('dragover');
+}
+
+const basket = document.getElementById('basket');
+
+basket.addEventListener('dragover', e => {
+  e.preventDefault();
+  basket.classList.add('dragover');
+});
+
+basket.addEventListener('dragleave', () => basket.classList.remove('dragover'));
+
+basket.addEventListener('drop', e => {
+  e.preventDefault();
+  basket.classList.remove('dragover');
+  if (draggedEl) handleDrop(draggedEl);
+});
+
+// ─── Touch Drag & Drop ─────────────────────────────────────────────────────
+const clone = document.getElementById('dragClone');
+let touchItem = null;
+let touchOffsetX = 0, touchOffsetY = 0;
+
+function onTouchStart(e) {
+  const el = e.currentTarget;
+  touchItem = el;
+  const rect = el.getBoundingClientRect();
+  const touch = e.touches[0];
+  touchOffsetX = touch.clientX - rect.left;
+  touchOffsetY = touch.clientY - rect.top;
+
+  clone.innerHTML = el.innerHTML;
+  clone.style.width  = rect.width  + 'px';
+  clone.style.height = rect.height + 'px';
+  clone.style.left   = (touch.clientX - touchOffsetX) + 'px';
+  clone.style.top    = (touch.clientY - touchOffsetY) + 'px';
+  clone.style.display = 'flex';
+  clone.style.flexDirection = 'column';
+  clone.style.alignItems = 'center';
+  clone.style.justifyContent = 'center';
+  clone.style.background = '#fff';
+  clone.style.borderRadius = '14px';
+  clone.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)';
+  clone.style.fontSize = '0.75rem';
+  clone.style.fontWeight = 'bold';
+
+  el.style.opacity = '0.3';
+  e.preventDefault();
+}
+
+function onTouchMove(e) {
+  if (!touchItem) return;
+  const touch = e.touches[0];
+  clone.style.left = (touch.clientX - touchOffsetX) + 'px';
+  clone.style.top  = (touch.clientY - touchOffsetY) + 'px';
+
+  // highlight basket if hovering
+  const bRect = basket.getBoundingClientRect();
+  if (touch.clientX > bRect.left && touch.clientX < bRect.right &&
+      touch.clientY > bRect.top  && touch.clientY < bRect.bottom) {
+    basket.classList.add('dragover');
+  } else {
+    basket.classList.remove('dragover');
+  }
+  e.preventDefault();
+}
+
+function onTouchEnd(e) {
+  if (!touchItem) return;
+  clone.style.display = 'none';
+  touchItem.style.opacity = '1';
+  basket.classList.remove('dragover');
+
+  const touch = e.changedTouches[0];
+  const bRect  = basket.getBoundingClientRect();
+  if (touch.clientX > bRect.left && touch.clientX < bRect.right &&
+      touch.clientY > bRect.top  && touch.clientY < bRect.bottom) {
+    handleDrop(touchItem);
+  }
+  touchItem = null;
+  e.preventDefault();
+}
+
+// ─── Handle Drop Logic ─────────────────────────────────────────────────────
+function handleDrop(el) {
+  const isCorrect = el.dataset.correct === 'true';
+
+  if (isCorrect) {
+    playSound('correctSound');
+    score += 10;
+    document.getElementById('scoreBar').textContent = 'Score: ' + score;
+    remaining--;
+
+    // move mini icon into basket
+    const mini = document.createElement('img');
+    mini.src = el.querySelector('img') ? el.querySelector('img').src : '';
+    mini.style.cssText = 'width:40px;height:40px;object-fit:contain;border-radius:8px;';
+    basket.appendChild(mini);
+
+    el.remove();
+    flashBasket('correct-flash');
+
+    if (remaining === 0) {
+      setTimeout(advanceLevel, 900);
+    }
+  } else {
+    playSound('wrongSound');
+    flashBasket('wrong-flash');
+    // shake the item
+    el.style.animation = 'none';
+    el.style.transform = 'translateX(-8px)';
+    setTimeout(() => el.style.transform = 'translateX(8px)',  80);
+    setTimeout(() => el.style.transform = 'translateX(-6px)', 160);
+    setTimeout(() => el.style.transform = 'translateX(0)',    240);
+  }
+}
+
+function flashBasket(cls) {
+  basket.classList.add(cls);
+  setTimeout(() => basket.classList.remove(cls), 500);
+}
+
+// ─── Advance to next level or finish ──────────────────────────────────────
+function advanceLevel() {
+  currentLevel++;
+  if (currentLevel < levels.length) {
+    loadLevel(currentLevel);
+  } else {
+    show('finalScreen');
+  }
+}
+</script>
 </body>
 </html>
