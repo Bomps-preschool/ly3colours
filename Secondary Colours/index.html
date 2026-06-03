@@ -23,13 +23,13 @@
     justify-content: center;
     padding: 20px;
     text-align: center;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.6s ease;
   }
 
   .screen.active { display: flex; }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.97); }
+    from { opacity: 0; transform: scale(0.96); }
     to   { opacity: 1; transform: scale(1); }
   }
 
@@ -39,13 +39,24 @@
   }
 
   .splashLogo {
-    width: 200px;
-    animation: pulse 1s ease-in-out infinite alternate;
+    width: 280px;
+    max-width: 80vw;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: pulse 1.2s ease-in-out infinite alternate;
   }
 
   @keyframes pulse {
-    from { transform: scale(1); }
-    to   { transform: scale(1.08); }
+    from { transform: scale(1);    filter: brightness(1); }
+    to   { transform: scale(1.07); filter: brightness(1.1); }
+  }
+
+  .splash-sub {
+    margin-top: 28px;
+    color: rgba(255,255,255,0.9);
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
   }
 
   /* ── WELCOME ── */
@@ -54,16 +65,16 @@
   }
 
   #welcomeScreen h1 {
-    font-size: 2rem;
+    font-size: 2.4rem;
     color: #5a0080;
-    margin-bottom: 12px;
-    text-shadow: 1px 1px 0 #fff;
+    margin-bottom: 14px;
+    text-shadow: 2px 2px 0 #fff;
   }
 
   #welcomeScreen p {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 28px;
+    font-size: 1.3rem;
+    color: #444;
+    margin-bottom: 32px;
   }
 
   /* ── LEARN ── */
@@ -72,36 +83,37 @@
   }
 
   #learnScreen h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #333;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 
   .colourGrid {
     display: flex;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
   }
 
   .colourCard {
-    width: 130px;
-    height: 130px;
-    border-radius: 20px;
+    width: 170px;
+    height: 170px;
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: white;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
     transition: transform 0.15s;
     user-select: none;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
   }
 
-  .colourCard:active { transform: scale(0.93); }
+  .colourCard:active { transform: scale(0.92); }
   .colourCard.purple { background: #7b2fbe; }
   .colourCard.orange { background: #e87722; }
   .colourCard.green  { background: #2e7d32; }
@@ -109,89 +121,151 @@
   /* ── SORTING ── */
   #sortingScreen {
     background: linear-gradient(160deg, #fff9c4, #fff176);
+    justify-content: flex-start;
+    padding-top: 28px;
+    overflow-y: auto;
   }
 
   #sortingScreen h2 {
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: #4a148c;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   #levelInstruction {
-    font-size: 1rem;
+    font-size: 1.15rem;
     color: #555;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
+  /* level progress dots */
+  .level-dots {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.done   { background: #4caf50; }
+  .dot.active { background: #ff9800; transform: scale(1.3); }
+
+  /* items grid */
   .itemsContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 20px;
     justify-content: center;
-    margin-bottom: 20px;
-    min-height: 100px;
+    margin-bottom: 26px;
+    min-height: 170px;
   }
 
+  /* ── BIG ITEM CARDS ── */
   .item {
-    width: 90px;
-    height: 90px;
-    border-radius: 14px;
+    width: 150px;
+    height: 168px;
+    border-radius: 22px;
     background: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: grab;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    font-size: 0.75rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.16);
     font-weight: bold;
     color: #333;
     transition: transform 0.15s, box-shadow 0.15s;
     user-select: none;
-    padding: 6px;
+    padding: 10px 8px 10px;
+    border: 3px solid #eee;
   }
 
   .item img {
-    width: 56px;
-    height: 56px;
+    width: 108px;
+    height: 108px;
     object-fit: contain;
     pointer-events: none;
+    margin-bottom: 8px;
   }
 
-  .item:active { cursor: grabbing; transform: scale(1.05); }
-  .item.dragging { opacity: 0.4; transform: scale(1.1); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .item span {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .item:hover  { transform: scale(1.06); box-shadow: 0 10px 28px rgba(0,0,0,0.22); }
+  .item:active { cursor: grabbing; }
+  .item.dragging { opacity: 0.35; transform: scale(1.08); }
+
+  /* ── BASKET ── */
+  .basket-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .basket-image {
+    font-size: 6rem;
+    line-height: 1;
+    transition: transform 0.2s;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+  }
+
+  .basket-wrapper.hovered .basket-image {
+    transform: scale(1.14);
+  }
 
   .basket {
-    width: 200px;
+    width: 280px;
     min-height: 100px;
-    border: 4px dashed #aaa;
-    border-radius: 20px;
+    border: 5px dashed #bbb;
+    border-top: none;
+    border-radius: 0 0 36px 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
-    color: #666;
-    background: rgba(255,255,255,0.6);
-    transition: border-color 0.2s, background 0.2s;
-    padding: 10px;
+    color: #999;
+    background: rgba(255,255,255,0.65);
+    transition: border-color 0.25s, background 0.25s;
+    padding: 12px;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
   }
 
   .basket.dragover {
     border-color: #4caf50;
-    background: rgba(200,255,200,0.7);
+    background: rgba(200,255,200,0.75);
+    color: #2e7d32;
   }
 
   .basket.correct-flash {
     border-color: #4caf50;
-    background: rgba(144,238,144,0.8);
+    background: rgba(144,238,144,0.85);
   }
 
   .basket.wrong-flash {
     border-color: #f44336;
-    background: rgba(255,182,182,0.8);
+    background: rgba(255,182,182,0.85);
+  }
+
+  /* dropped mini images inside basket */
+  .basket img.dropped {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 2px solid rgba(0,0,0,0.08);
+    background: #fff;
+    padding: 4px;
   }
 
   /* score bar */
@@ -199,13 +273,15 @@
     position: fixed;
     top: 14px;
     right: 18px;
-    background: rgba(0,0,0,0.15);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.9rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 24px;
+    padding: 7px 20px;
+    font-size: 1.05rem;
     font-weight: bold;
     color: #fff;
     pointer-events: none;
+    z-index: 100;
+    letter-spacing: 1px;
   }
 
   /* ── FINAL ── */
@@ -214,110 +290,168 @@
   }
 
   #finalScreen .logo {
-    width: 120px;
-    margin-bottom: 20px;
+    width: 160px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
   }
 
   #finalScreen h1 {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
     color: #4a148c;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   #finalScreen p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: #333;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   .stars {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+    margin-bottom: 28px;
+    letter-spacing: 6px;
+    animation: starPop 0.5s ease;
+  }
+
+  @keyframes starPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .final-score {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #6a0dad;
     margin-bottom: 24px;
-    letter-spacing: 4px;
+    background: rgba(255,255,255,0.6);
+    padding: 10px 28px;
+    border-radius: 30px;
   }
 
   /* ── SHARED BUTTON ── */
   button {
-    padding: 14px 36px;
-    font-size: 1.1rem;
+    padding: 16px 44px;
+    font-size: 1.2rem;
     font-weight: bold;
     border: none;
     border-radius: 50px;
     background: #6a0dad;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(106,13,173,0.4);
+    box-shadow: 0 5px 16px rgba(106,13,173,0.4);
     transition: transform 0.15s, box-shadow 0.15s;
   }
 
-  button:hover  { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(106,13,173,0.5); }
-  button:active { transform: scale(0.96); }
+  button:hover  { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(106,13,173,0.5); }
+  button:active { transform: scale(0.95); }
 
-  /* Touch drag helper */
+  /* Touch drag clone */
   #dragClone {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.85;
+    opacity: 0.88;
     transform: scale(1.1);
     display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    padding: 10px 8px 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
   }
+
+  #dragClone img {
+    width: 108px;
+    height: 108px;
+    object-fit: contain;
+    margin-bottom: 6px;
+  }
+
+  /* shake animation */
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-10px); }
+    40%      { transform: translateX(10px); }
+    60%      { transform: translateX(-8px); }
+    80%      { transform: translateX(8px); }
+  }
+
+  .shake { animation: shake 0.4s ease; }
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <section id="splashScreen" class="screen active">
   <img src="Assets/innovinelogo.png" class="splashLogo" alt="Innovine Logo">
+  <div class="splash-sub" id="splashSub">Loading… 5</div>
 </section>
 
-<!-- WELCOME SCREEN -->
+<!-- WELCOME -->
 <section id="welcomeScreen" class="screen">
   <div class="welcomeContent">
-    <h1>Secondary Colours Adventure</h1>
+    <h1>🎨 Secondary Colours Adventure</h1>
     <p>Learn Purple, Orange and Green!</p>
-    <button id="startBtn">Start Game</button>
+    <button id="startBtn">▶ Start Game</button>
   </div>
 </section>
 
-<!-- LEARN COLOURS -->
+<!-- LEARN -->
 <section id="learnScreen" class="screen">
-  <h2>Tap the Colours!</h2>
+  <h2>👆 Tap the Colours!</h2>
   <div class="colourGrid">
     <div class="colourCard purple" data-colour="purple">🟣 Purple</div>
     <div class="colourCard orange" data-colour="orange">🟠 Orange</div>
-    <div class="colourCard green"  data-colour="green">🟢 Green</div>
+    <div class="colourCard green"  data-colour="green" >🟢 Green</div>
   </div>
   <button id="learnNextBtn">Next →</button>
 </section>
 
-<!-- SORTING SCREEN -->
+<!-- SORTING -->
 <section id="sortingScreen" class="screen">
-  <div class="score-bar" id="scoreBar">Score: 0</div>
+  <div class="score-bar" id="scoreBar">⭐ Score: 0</div>
+  <div class="level-dots" id="levelDots">
+    <div class="dot active" id="dot0"></div>
+    <div class="dot"        id="dot1"></div>
+    <div class="dot"        id="dot2"></div>
+  </div>
   <h2 id="levelTitle">Purple Basket</h2>
   <p id="levelInstruction">Drag the correct items into the basket!</p>
   <div id="itemsContainer" class="itemsContainer"></div>
-  <div id="basket" class="basket">🧺 Drop here</div>
+
+  <div class="basket-wrapper" id="basketWrapper">
+    <div class="basket-image" id="basketEmoji">🧺</div>
+    <div id="basket" class="basket">Drop here</div>
+  </div>
 </section>
 
-<!-- FINAL SCREEN -->
+<!-- FINAL -->
 <section id="finalScreen" class="screen">
   <img src="Assets/innovinelogo.png" class="logo" alt="Logo">
   <h1>🏆 Colour Champion!</h1>
   <p>Fantastic! You sorted all the colours!</p>
   <div class="stars">⭐⭐⭐⭐⭐</div>
-  <button onclick="location.reload()">Play Again 🔄</button>
+  <div class="final-score" id="finalScore">Score: 0</div>
+  <button onclick="location.reload()">🔄 Play Again</button>
 </section>
 
 <!-- AUDIO -->
 <audio id="correctSound" src="Assets/correct.mp3"></audio>
 <audio id="wrongSound"   src="Assets/wrong.mp3"></audio>
+<audio id="clapsSound"   src="Assets/claps.mp3"></audio>
 
 <!-- Touch drag clone -->
-<div id="dragClone"></div>
+<div id="dragClone"><img src="" alt=""><span></span></div>
 
 <script>
-// ─── Utility ───────────────────────────────────────────────────────────────
+// ─── Helpers ───────────────────────────────────────────────────────────────
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -325,29 +459,53 @@ function show(id) {
 
 function playSound(id) {
   const a = document.getElementById(id);
-  if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+  if (!a) return;
+  a.currentTime = 0;
+  a.play().catch(() => {});
 }
 
-// ─── Levels ────────────────────────────────────────────────────────────────
-// Each level: which basket colour, which items belong (correct), which are distractors
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.82;
+    u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }
+}
+
+// ─── Splash: 5-second countdown ────────────────────────────────────────────
+let splashCount = 5;
+const splashSub = document.getElementById('splashSub');
+const splashInterval = setInterval(() => {
+  splashCount--;
+  if (splashCount <= 0) {
+    clearInterval(splashInterval);
+    show('welcomeScreen');
+  } else {
+    splashSub.textContent = 'Loading… ' + splashCount;
+  }
+}, 1000);
+
+// ─── Levels data ───────────────────────────────────────────────────────────
 const levels = [
   {
-    colour: 'purple',
-    title:  '🟣 Purple Basket',
+    colour:      'purple',
+    title:       '🟣 Purple Basket',
     instruction: 'Drag the PURPLE things into the basket!',
-    basketStyle: '#7b2fbe',
+    borderColor: '#7b2fbe',
     items: [
       { name: 'Grapes',  img: 'Assets/grapes.png',  correct: true  },
       { name: 'Parrot',  img: 'Assets/parrot.png',  correct: false },
       { name: 'Brinjal', img: 'Assets/brinjal.png', correct: true  },
-      { name: 'Orange',  img: 'Assets/orange.jpg',  correct: false },
+      { name: 'T-Shirt', img: 'Assets/tshirt.png',  correct: false },
     ]
   },
   {
-    colour: 'orange',
-    title:  '🟠 Orange Basket',
+    colour:      'orange',
+    title:       '🟠 Orange Basket',
     instruction: 'Drag the ORANGE things into the basket!',
-    basketStyle: '#e87722',
+    borderColor: '#e87722',
     items: [
       { name: 'Orange',       img: 'Assets/orange.jpg',       correct: true  },
       { name: 'Orange Fruit', img: 'Assets/orangefruit.png',  correct: true  },
@@ -356,83 +514,87 @@ const levels = [
     ]
   },
   {
-    colour: 'green',
-    title:  '🟢 Green Basket',
+    colour:      'green',
+    title:       '🟢 Green Basket',
     instruction: 'Drag the GREEN things into the basket!',
-    basketStyle: '#2e7d32',
+    borderColor: '#2e7d32',
     items: [
-      { name: 'Tree',   img: 'Assets/tree.jpg',   correct: true  },
-      { name: 'Parrot', img: 'Assets/parrot.png', correct: true  },
-      { name: 'Bow',    img: 'Assets/bow.png',    correct: false },
-      { name: 'T-Shirt',img: 'Assets/tshirt.png', correct: false },
+      { name: 'Tree',    img: 'Assets/tree.jpg',    correct: true  },
+      { name: 'Parrot',  img: 'Assets/parrot.png',  correct: true  },
+      { name: 'Bow',     img: 'Assets/bow.png',     correct: false },
+      { name: 'T-Shirt', img: 'Assets/tshirt.png',  correct: false },
     ]
   }
 ];
 
 // ─── State ─────────────────────────────────────────────────────────────────
 let currentLevel = 0;
-let score = 0;
-let remaining = 0;   // correct items left in current level
-
-// ─── Splash → Welcome ──────────────────────────────────────────────────────
-setTimeout(() => show('welcomeScreen'), 2000);
+let score        = 0;
+let remaining    = 0;
 
 // ─── Welcome → Learn ───────────────────────────────────────────────────────
-document.getElementById('startBtn').addEventListener('click', () => show('learnScreen'));
+document.getElementById('startBtn').addEventListener('click', () => {
+  speak('Let us learn secondary colours!');
+  show('learnScreen');
+});
 
-// ─── Learn: tap cards to hear name ─────────────────────────────────────────
+// ─── Learn: tap to hear colour name ────────────────────────────────────────
 document.querySelectorAll('.colourCard').forEach(card => {
   card.addEventListener('click', () => {
-    const colour = card.dataset.colour;
-    // simple speech if available
-    if ('speechSynthesis' in window) {
-      const u = new SpeechSynthesisUtterance(colour);
-      u.rate = 0.85;
-      speechSynthesis.speak(u);
-    }
-    card.style.transform = 'scale(1.15)';
-    setTimeout(() => card.style.transform = '', 300);
+    speak(card.dataset.colour);
+    card.style.transform = 'scale(1.18)';
+    setTimeout(() => card.style.transform = '', 320);
   });
 });
 
 // ─── Learn → Sorting ───────────────────────────────────────────────────────
 document.getElementById('learnNextBtn').addEventListener('click', () => {
   currentLevel = 0;
-  score = 0;
-  loadLevel(currentLevel);
+  score        = 0;
+  loadLevel(0);
   show('sortingScreen');
 });
 
-// ─── Load a level ──────────────────────────────────────────────────────────
+// ─── Load level ────────────────────────────────────────────────────────────
 function loadLevel(idx) {
   const lvl = levels[idx];
-  document.getElementById('levelTitle').textContent      = lvl.title;
-  document.getElementById('levelInstruction').textContent = lvl.instruction;
-  document.getElementById('scoreBar').textContent         = 'Score: ' + score;
 
+  document.getElementById('levelTitle').textContent       = lvl.title;
+  document.getElementById('levelInstruction').textContent  = lvl.instruction;
+  document.getElementById('scoreBar').textContent          = '⭐ Score: ' + score;
+
+  // progress dots
+  for (let i = 0; i < 3; i++) {
+    const dot = document.getElementById('dot' + i);
+    dot.className = 'dot';
+    if (i < idx)  dot.classList.add('done');
+    if (i === idx) dot.classList.add('active');
+  }
+
+  // basket styling
   const basket = document.getElementById('basket');
-  basket.style.borderColor = lvl.basketStyle;
-  basket.innerHTML = '🧺 Drop here';
+  basket.style.borderColor = lvl.borderColor;
+  basket.innerHTML = 'Drop here';
 
   remaining = lvl.items.filter(i => i.correct).length;
 
+  // build items
   const container = document.getElementById('itemsContainer');
   container.innerHTML = '';
-
-  // shuffle items
   const shuffled = [...lvl.items].sort(() => Math.random() - 0.5);
 
   shuffled.forEach(item => {
-    const el = document.createElement('div');
-    el.className   = 'item';
-    el.draggable   = true;
-    el.dataset.correct = item.correct;
-    el.dataset.name    = item.name;
+    const el    = document.createElement('div');
+    el.className         = 'item';
+    el.draggable         = true;
+    el.dataset.correct   = item.correct;
+    el.dataset.name      = item.name;
+    el.dataset.img       = item.img;
 
-    const img = document.createElement('img');
-    img.src = item.img;
-    img.alt = item.name;
-    img.onerror = () => { img.style.display = 'none'; }; // graceful fallback
+    const img   = document.createElement('img');
+    img.src     = item.img;
+    img.alt     = item.name;
+    img.onerror = () => { img.style.display = 'none'; };
 
     const label = document.createElement('span');
     label.textContent = item.name;
@@ -441,18 +603,20 @@ function loadLevel(idx) {
     el.appendChild(label);
     container.appendChild(el);
 
-    // Desktop drag events
+    // desktop
     el.addEventListener('dragstart', onDragStart);
     el.addEventListener('dragend',   onDragEnd);
 
-    // Touch drag events
+    // touch
     el.addEventListener('touchstart', onTouchStart, { passive: false });
     el.addEventListener('touchmove',  onTouchMove,  { passive: false });
     el.addEventListener('touchend',   onTouchEnd,   { passive: false });
   });
+
+  speak(lvl.title.replace(/[🟣🟠🟢]/gu, ''));
 }
 
-// ─── Desktop Drag & Drop ───────────────────────────────────────────────────
+// ─── Desktop drag ──────────────────────────────────────────────────────────
 let draggedEl = null;
 
 function onDragStart(e) {
@@ -461,54 +625,57 @@ function onDragStart(e) {
   e.dataTransfer.effectAllowed = 'move';
 }
 
-function onDragEnd(e) {
+function onDragEnd() {
   if (draggedEl) draggedEl.classList.remove('dragging');
   draggedEl = null;
   document.getElementById('basket').classList.remove('dragover');
+  document.getElementById('basketWrapper').classList.remove('hovered');
 }
 
-const basket = document.getElementById('basket');
+const basketEl      = document.getElementById('basket');
+const basketWrapper = document.getElementById('basketWrapper');
 
-basket.addEventListener('dragover', e => {
+basketEl.addEventListener('dragover', e => {
   e.preventDefault();
-  basket.classList.add('dragover');
+  basketEl.classList.add('dragover');
+  basketWrapper.classList.add('hovered');
 });
 
-basket.addEventListener('dragleave', () => basket.classList.remove('dragover'));
+basketEl.addEventListener('dragleave', () => {
+  basketEl.classList.remove('dragover');
+  basketWrapper.classList.remove('hovered');
+});
 
-basket.addEventListener('drop', e => {
+basketEl.addEventListener('drop', e => {
   e.preventDefault();
-  basket.classList.remove('dragover');
+  basketEl.classList.remove('dragover');
+  basketWrapper.classList.remove('hovered');
   if (draggedEl) handleDrop(draggedEl);
 });
 
-// ─── Touch Drag & Drop ─────────────────────────────────────────────────────
-const clone = document.getElementById('dragClone');
-let touchItem = null;
-let touchOffsetX = 0, touchOffsetY = 0;
+// ─── Touch drag ────────────────────────────────────────────────────────────
+const cloneEl   = document.getElementById('dragClone');
+const cloneImg  = cloneEl.querySelector('img');
+const cloneSpan = cloneEl.querySelector('span');
+let touchItem   = null;
+let touchOffX   = 0;
+let touchOffY   = 0;
 
 function onTouchStart(e) {
-  const el = e.currentTarget;
-  touchItem = el;
-  const rect = el.getBoundingClientRect();
-  const touch = e.touches[0];
-  touchOffsetX = touch.clientX - rect.left;
-  touchOffsetY = touch.clientY - rect.top;
+  const el    = e.currentTarget;
+  touchItem   = el;
+  const rect  = el.getBoundingClientRect();
+  const t     = e.touches[0];
+  touchOffX   = t.clientX - rect.left;
+  touchOffY   = t.clientY - rect.top;
 
-  clone.innerHTML = el.innerHTML;
-  clone.style.width  = rect.width  + 'px';
-  clone.style.height = rect.height + 'px';
-  clone.style.left   = (touch.clientX - touchOffsetX) + 'px';
-  clone.style.top    = (touch.clientY - touchOffsetY) + 'px';
-  clone.style.display = 'flex';
-  clone.style.flexDirection = 'column';
-  clone.style.alignItems = 'center';
-  clone.style.justifyContent = 'center';
-  clone.style.background = '#fff';
-  clone.style.borderRadius = '14px';
-  clone.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)';
-  clone.style.fontSize = '0.75rem';
-  clone.style.fontWeight = 'bold';
+  cloneImg.src          = el.dataset.img || '';
+  cloneSpan.textContent = el.dataset.name || '';
+  cloneEl.style.width   = rect.width  + 'px';
+  cloneEl.style.height  = rect.height + 'px';
+  cloneEl.style.left    = (t.clientX - touchOffX) + 'px';
+  cloneEl.style.top     = (t.clientY - touchOffY) + 'px';
+  cloneEl.style.display = 'flex';
 
   el.style.opacity = '0.3';
   e.preventDefault();
@@ -516,82 +683,82 @@ function onTouchStart(e) {
 
 function onTouchMove(e) {
   if (!touchItem) return;
-  const touch = e.touches[0];
-  clone.style.left = (touch.clientX - touchOffsetX) + 'px';
-  clone.style.top  = (touch.clientY - touchOffsetY) + 'px';
+  const t = e.touches[0];
+  cloneEl.style.left = (t.clientX - touchOffX) + 'px';
+  cloneEl.style.top  = (t.clientY - touchOffY) + 'px';
 
-  // highlight basket if hovering
-  const bRect = basket.getBoundingClientRect();
-  if (touch.clientX > bRect.left && touch.clientX < bRect.right &&
-      touch.clientY > bRect.top  && touch.clientY < bRect.bottom) {
-    basket.classList.add('dragover');
-  } else {
-    basket.classList.remove('dragover');
-  }
+  const bRect = basketEl.getBoundingClientRect();
+  const over  = t.clientX > bRect.left && t.clientX < bRect.right &&
+                t.clientY > bRect.top  && t.clientY < bRect.bottom;
+  basketEl.classList.toggle('dragover', over);
+  basketWrapper.classList.toggle('hovered', over);
   e.preventDefault();
 }
 
 function onTouchEnd(e) {
   if (!touchItem) return;
-  clone.style.display = 'none';
+  cloneEl.style.display = 'none';
   touchItem.style.opacity = '1';
-  basket.classList.remove('dragover');
+  basketEl.classList.remove('dragover');
+  basketWrapper.classList.remove('hovered');
 
-  const touch = e.changedTouches[0];
-  const bRect  = basket.getBoundingClientRect();
-  if (touch.clientX > bRect.left && touch.clientX < bRect.right &&
-      touch.clientY > bRect.top  && touch.clientY < bRect.bottom) {
-    handleDrop(touchItem);
-  }
+  const t     = e.changedTouches[0];
+  const bRect = basketEl.getBoundingClientRect();
+  const hit   = t.clientX > bRect.left && t.clientX < bRect.right &&
+                t.clientY > bRect.top  && t.clientY < bRect.bottom;
+  if (hit) handleDrop(touchItem);
+
   touchItem = null;
   e.preventDefault();
 }
 
-// ─── Handle Drop Logic ─────────────────────────────────────────────────────
+// ─── Drop logic ────────────────────────────────────────────────────────────
 function handleDrop(el) {
-  const isCorrect = el.dataset.correct === 'true';
+  const correct = el.dataset.correct === 'true';
 
-  if (isCorrect) {
+  if (correct) {
     playSound('correctSound');
-    score += 10;
-    document.getElementById('scoreBar').textContent = 'Score: ' + score;
-    remaining--;
+    speak('Correct! Well done!');
+    score     += 10;
+    remaining -= 1;
+    document.getElementById('scoreBar').textContent = '⭐ Score: ' + score;
 
-    // move mini icon into basket
-    const mini = document.createElement('img');
-    mini.src = el.querySelector('img') ? el.querySelector('img').src : '';
-    mini.style.cssText = 'width:40px;height:40px;object-fit:contain;border-radius:8px;';
-    basket.appendChild(mini);
+    // place mini image in basket
+    const mini       = document.createElement('img');
+    mini.src         = el.dataset.img || (el.querySelector('img') ? el.querySelector('img').src : '');
+    mini.alt         = el.dataset.name;
+    mini.className   = 'dropped';
+    basketEl.appendChild(mini);
 
     el.remove();
     flashBasket('correct-flash');
 
     if (remaining === 0) {
-      setTimeout(advanceLevel, 900);
+      setTimeout(advanceLevel, 1000);
     }
   } else {
     playSound('wrongSound');
+    speak('Try again!');
     flashBasket('wrong-flash');
-    // shake the item
-    el.style.animation = 'none';
-    el.style.transform = 'translateX(-8px)';
-    setTimeout(() => el.style.transform = 'translateX(8px)',  80);
-    setTimeout(() => el.style.transform = 'translateX(-6px)', 160);
-    setTimeout(() => el.style.transform = 'translateX(0)',    240);
+    el.classList.add('shake');
+    setTimeout(() => el.classList.remove('shake'), 450);
   }
 }
 
 function flashBasket(cls) {
-  basket.classList.add(cls);
-  setTimeout(() => basket.classList.remove(cls), 500);
+  basketEl.classList.add(cls);
+  setTimeout(() => basketEl.classList.remove(cls), 500);
 }
 
-// ─── Advance to next level or finish ──────────────────────────────────────
+// ─── Advance level / finish ────────────────────────────────────────────────
 function advanceLevel() {
   currentLevel++;
   if (currentLevel < levels.length) {
     loadLevel(currentLevel);
   } else {
+    playSound('clapsSound');
+    speak('You are a Colour Champion! Fantastic!');
+    document.getElementById('finalScore').textContent = '⭐ Final Score: ' + score;
     show('finalScreen');
   }
 }
